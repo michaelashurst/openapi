@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/michaelashurst/openapi/document/component"
 )
 
 func (h AppRouter) getComponent(w http.ResponseWriter, r *http.Request) {
@@ -14,7 +13,7 @@ func (h AppRouter) getComponent(w http.ResponseWriter, r *http.Request) {
 
 	for key, s := range h.Doc.Components.Schemas {
 		if key == c {
-			example := component.ConvertSchemaToExample(s)
+			example := s.GenerateExample()
 			json.NewEncoder(w).Encode(example)
 			break
 		}
