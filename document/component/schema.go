@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"strings"
+
+	"github.com/michaelashurst/openapi/document/component/converter"
 )
 
 type Schema struct {
@@ -24,14 +26,16 @@ func (s Schema) GenerateExample() (example Example) {
 		panic(err)
 	}
 
-	if jobj["type"] == "object" {
-		props := jobj["properties"].(map[string]interface{})
-		for key, val := range props {
-			if val.(map[string]interface{})["type"] != "object" {
-				output[key] = getDefaultValue(val.(map[string]interface{}))
-			}
-		}
-	}
+	converter := converter.NewConverter(jobj["type"].(string))
+	output = converter.SchemaToExample(jobj).(map[string]interface{})
+	// if jobj["type"] == "object" {
+	// 	props := jobj["properties"].(map[string]interface{})
+	// 	for key, val := range props {
+	// 		if val.(map[string]interface{})["type"] != "object" {
+	// 			output[key] = getDefaultValue(val.(map[string]interface{}))
+	// 		}
+	// 	}
+	// }
 
 	outputData, err := json.Marshal(output)
 	if err != nil {

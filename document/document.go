@@ -2,6 +2,7 @@ package document
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -69,4 +70,14 @@ func (doc *Document) Save() {
 func (doc *Document) UpdateInfo(info info.Info) {
 	doc.Info = info
 	doc.Save()
+}
+
+func (doc *Document) GetComponentExample(c string) (component.Example, error) {
+	for key, s := range doc.Components.Schemas {
+		if key == c {
+			example := s.GenerateExample()
+			return example, nil
+		}
+	}
+	return component.Example{}, errors.New("NotFound")
 }
