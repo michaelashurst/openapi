@@ -16,7 +16,10 @@ func (h AppRouter) getComponent(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		if err.Error() == "NotFound" {
 			http.Error(w, err.Error(), http.StatusNotFound)
+		} else {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
+		return
 	}
 	fmt.Println(example)
 	json.NewEncoder(w).Encode(example)
