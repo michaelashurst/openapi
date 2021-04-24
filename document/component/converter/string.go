@@ -18,7 +18,7 @@ func (con stringConverter) SchemaToExample(schema map[string]interface{}) (examp
 	}
 
 	if schema["format"] == "date-time" {
-		return "0000-00-00T00:00Z"
+		return "0000-00-00T00:00.000Z"
 	}
 
 	if schema["enum"] != nil {

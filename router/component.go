@@ -2,6 +2,7 @@ package router
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -17,5 +18,6 @@ func (h AppRouter) getComponent(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusNotFound)
 		}
 	}
+	fmt.Println(example)
 	json.NewEncoder(w).Encode(example)
 }
