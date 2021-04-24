@@ -79,5 +79,6 @@ func (doc *Document) GetComponentExample(c string) (component.Example, error) {
 			return example, nil
 		}
 	}
+	fmt.Println("Failed to find a component for the given key", c)
 	return component.Example{}, errors.New("NotFound")
 }
