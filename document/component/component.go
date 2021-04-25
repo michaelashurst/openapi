@@ -8,7 +8,7 @@ import (
 )
 
 type Components struct {
-	Schemas         map[string]Schema                `json:"schemas,omitempty" yaml:"schemas,omitempty"`
+	Schemas         map[string]*json.RawMessage      `json:"schemas,omitempty" yaml:"schemas,omitempty"`
 	Responses       map[string]operation.Response    `json:"responses,omitempty" yaml:"responses,omitempty"`
 	Parameters      map[string]parameter.Parameter   `json:"parameters,omitempty" yaml:"parameters,omitempty"`
 	Examples        map[string]parameter.Example     `json:"examples,omitempty" yaml:"examples,omitempty"`

@@ -15,6 +15,12 @@ func (con objectConverter) SchemaToExample(schema map[string]interface{}) interf
 	return output
 }
 
-func (con objectConverter) ExampleToSchema(example map[string]interface{}) (schema interface{}) {
-	return nil
+func (con objectConverter) ExampleToSchema(example interface{}) (schema map[string]interface{}) {
+	obj := example.(map[string]interface{})
+	schema = make(map[string]interface{})
+	for key, value := range obj {
+		converter := NewConverterFromInterface(value)
+		schema[key] = converter.ExampleToSchema(value)
+	}
+	return
 }

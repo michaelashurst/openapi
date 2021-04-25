@@ -2,7 +2,6 @@ package component
 
 import (
 	"encoding/json"
-	"fmt"
 	"testing"
 )
 
@@ -35,9 +34,6 @@ func TestGenerateExample(t *testing.T) {
 				"type": "boolean",
 				"default": false
 			}
-		},
-		"xml": {
-			"name": "Order"
 		}
 	}`
 
@@ -60,9 +56,8 @@ func TestGenerateExample(t *testing.T) {
 		t.Error("id expected to be 0 but got", exampleMap["id"])
 	}
 
-	fmt.Println("Test5")
-	if exampleMap["shipDate"] != "0000-00-00T00:00.000Z" {
-		t.Error("shipDate expected to be 0000-00-00T00:00.000Z but got", exampleMap["shipDate"])
+	if exampleMap["shipDate"] != "0000-00-00T00:00:00Z" {
+		t.Error("shipDate expected to be 0000-00-00T00:00:00Z but got", exampleMap["shipDate"])
 	}
 
 	if exampleMap["status"] != "placed|approved|delivered" {

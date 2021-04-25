@@ -73,9 +73,12 @@ func (doc *Document) UpdateInfo(info info.Info) {
 }
 
 func (doc *Document) GetComponentExample(c string) (component.Example, error) {
+	fmt.Println(doc.Components.Schemas)
 	for key, s := range doc.Components.Schemas {
+		fmt.Println(key)
 		if key == c {
-			example := s.GenerateExample()
+			fmt.Println("Getting component schema for", c)
+			example := component.Schema{s}.GenerateExample()
 			return example, nil
 		}
 	}

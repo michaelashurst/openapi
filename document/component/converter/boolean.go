@@ -14,6 +14,10 @@ func (con booleanConverter) SchemaToExample(schema map[string]interface{}) (exam
 	return false
 }
 
-func (con booleanConverter) ExampleToSchema(example map[string]interface{}) (schema interface{}) {
-	return nil
+func (con booleanConverter) ExampleToSchema(example interface{}) (schema map[string]interface{}) {
+	b := example.(bool)
+	schema = make(map[string]interface{})
+	schema["type"] = "boolean"
+	schema["example"] = b
+	return
 }

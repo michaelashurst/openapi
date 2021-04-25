@@ -3,6 +3,7 @@ package converter
 import (
 	"fmt"
 	"strings"
+	"time"
 )
 
 type stringConverter struct {
@@ -18,7 +19,7 @@ func (con stringConverter) SchemaToExample(schema map[string]interface{}) (examp
 	}
 
 	if schema["format"] == "date-time" {
-		return "0000-00-00T00:00.000Z"
+		return "0000-00-00T00:00:00Z"
 	}
 
 	if schema["enum"] != nil {
@@ -33,6 +34,25 @@ func (con stringConverter) SchemaToExample(schema map[string]interface{}) (examp
 	return ""
 }
 
-func (con stringConverter) ExampleToSchema(example map[string]interface{}) (schema interface{}) {
-	return nil
+func (con stringConverter) ExampleToSchema(example interface{}) (schema map[string]interface{}) {
+	str := example.(string)
+	schema = make(map[string]interface{})
+
+	schema["type"] = "string"
+
+	if len(str) > 0 {
+		if strings.ContainsAny(str, "|") {
+			enums := strings.Split(str, "|")
+			schema["example"] = enums[0]
+			schema["enum"] = enums
+			return
+		}
+		_, err := time.Parse("2006-01-02T15:04:05Z", str)
+		if err != nil {
+			schema["format"] = "date-time"
+		}
+		schema["example"] = example
+	}
+
+	return
 }

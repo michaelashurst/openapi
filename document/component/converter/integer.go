@@ -14,6 +14,12 @@ func (con integerConverter) SchemaToExample(schema map[string]interface{}) (exam
 	return 0
 }
 
-func (con integerConverter) ExampleToSchema(example map[string]interface{}) (schema interface{}) {
-	return nil
+func (con integerConverter) ExampleToSchema(example interface{}) (schema map[string]interface{}) {
+	i := example.(int64)
+	schema = make(map[string]interface{})
+	schema["type"] = "integer"
+	if i > 0 {
+		schema["example"] = i
+	}
+	return
 }

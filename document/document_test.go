@@ -16,7 +16,7 @@ import (
 // }
 
 func TestGetComponentSchema(t *testing.T) {
-	schemas := make(map[string]component.Schema)
+	schemas := make(map[string]*json.RawMessage)
 	successSchemaJson := `{
 		"type": "object",
 		"properties": {
@@ -37,14 +37,14 @@ func TestGetComponentSchema(t *testing.T) {
 	}`
 
 	schemaBytes := []byte(successSchemaJson)
-	successSchema := component.Schema{&json.RawMessage{}}
+	successSchema := &json.RawMessage{}
 	err := json.Unmarshal(schemaBytes, &successSchema)
 	if err != nil {
 		panic(err)
 	}
 
 	failSchemaBytes := []byte(failSchemaJson)
-	failSchema := component.Schema{&json.RawMessage{}}
+	failSchema := &json.RawMessage{}
 	err = json.Unmarshal(failSchemaBytes, &failSchema)
 	if err != nil {
 		panic(err)
