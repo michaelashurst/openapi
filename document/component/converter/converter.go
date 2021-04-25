@@ -20,10 +20,12 @@ func NewConverter(s string) converter {
 		return booleanConverter{}
 	case "number":
 		return numberConverter{}
+	case "array":
+		return arrayConverter{}
 	case "object":
 		return objectConverter{}
 	}
-	panic("No converter found")
+	panic("No converter found for type " + s)
 }
 
 func NewConverterFromInterface(i interface{}) converter {
@@ -36,6 +38,8 @@ func NewConverterFromInterface(i interface{}) converter {
 		return NewConverter("number")
 	case bool:
 		return NewConverter("boolean")
+	case []interface{}:
+		return NewConverter("array")
 	default:
 		return NewConverter("object")
 	}

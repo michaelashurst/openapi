@@ -13,10 +13,6 @@ func TestGenerateExample(t *testing.T) {
 				"type": "integer",
 				"format": "int64"
 			},
-			"quantity": {
-				"type": "integer",
-				"format": "int32"
-			},
 			"shipDate": {
 				"type": "string",
 				"format": "date-time"
@@ -33,6 +29,13 @@ func TestGenerateExample(t *testing.T) {
 			"complete": {
 				"type": "boolean",
 				"default": false
+			},
+			"contacts": {
+				"type": "array",
+				"items": {
+					"type": "string",
+					"example": "test"
+				}
 			}
 		}
 	}`
@@ -66,5 +69,9 @@ func TestGenerateExample(t *testing.T) {
 
 	if exampleMap["complete"] != false {
 		t.Error("complete expected to be false but got", exampleMap["complete"])
+	}
+
+	if len(exampleMap["contacts"].([]interface{})) != 1 || exampleMap["contacts"].([]interface{})[0] != "test" {
+		t.Error("contacts expected to be an array with 1 element but got", exampleMap["contacts"])
 	}
 }

@@ -48,7 +48,8 @@ func (con stringConverter) ExampleToSchema(example interface{}) (schema map[stri
 			return
 		}
 		_, err := time.Parse("2006-01-02T15:04:05Z", str)
-		if err != nil {
+		fmt.Println(err)
+		if err == nil {
 			schema["format"] = "date-time"
 		}
 		schema["example"] = example

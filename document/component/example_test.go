@@ -9,10 +9,12 @@ import (
 func TestGenerateSchema(t *testing.T) {
 	exampleJson := `{
 		"id": 0,
-		"quantity": 0,
 		"shipDate": "0000-00-00T00:00:00Z",
 		"status": "placed|approved|delivered",
-		"complete": false
+		"complete": false,
+		"contacts": [
+			"test"
+		]
 	}`
 
 	exampleBytes := []byte(exampleJson)
@@ -47,5 +49,9 @@ func TestGenerateSchema(t *testing.T) {
 
 	if schemaMap["complete"].(map[string]interface{})["type"] != "boolean" {
 		t.Error("complete expected to be boolean type but got", schemaMap["complete"])
+	}
+
+	if schemaMap["contacts"].(map[string]interface{})["type"] != "array" || schemaMap["contacts"].(map[string]interface{})["items"].(map[string]interface{})["type"] != "string" {
+		t.Error("contacts expected to be array type with string items but got", schemaMap["contacts"])
 	}
 }
