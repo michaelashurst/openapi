@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"reflect"
 
 	"github.com/michaelashurst/openapi/document/component"
 	"github.com/michaelashurst/openapi/document/info"
@@ -45,10 +46,13 @@ func contains(arr []string, val string) bool {
 }
 
 func (doc *Document) GetOperationsByTag(tag string) (ops []operation.PathOperation) {
+	methods := []string{"Get", "Delete", "Post", "Put", "Patch", "Head", "Options", "Trace"}
 	for key, path := range doc.Paths {
-		for _, op := range []*operation.Operation{path.Get, path.Delete, path.Post, path.Put, path.Patch, path.Head, path.Options, path.Trace} {
+		for _, method := range methods {
+			r := reflect.ValueOf(path)
+			op := reflect.Indirect(r).FieldByName(method).Interface().(*operation.Operation)
 			if op != nil && contains(op.Tags, tag) {
-				ops = append(ops, operation.PathOperation{Operation: *op, Path: key})
+				ops = append(ops, operation.PathOperation{Operation: *op, Path: key, Method: method})
 			}
 		}
 	}

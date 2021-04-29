@@ -8,7 +8,8 @@ import (
 
 type PathOperation struct {
 	Operation
-	Path string `json:"path,omitempty" yaml:"path,omitempty"`
+	Path   string `json:"path,omitempty" yaml:"path,omitempty"`
+	Method string `json:"method,omitempty" yaml:"method,omitempty"`
 }
 
 type Operation struct {
