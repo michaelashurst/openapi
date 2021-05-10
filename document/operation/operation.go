@@ -28,7 +28,7 @@ type Operation struct {
 }
 
 type Response struct {
-	Description string                         `json:"description,omitempty" yaml:"description,omitempty"`
+	Description string                         `json:"description" yaml:"description"`
 	Headers     map[string]*json.RawMessage    `json:"headers,omitempty" yaml:"headers,omitempty"`
 	Content     map[string]parameter.MediaType `json:"content,omitempty" yaml:"content,omitempty"`
 	Links       map[string]*json.RawMessage    `json:"links,omitempty" yaml:"links,omitempty"`

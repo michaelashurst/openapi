@@ -17,20 +17,20 @@ import (
 )
 
 type Document struct {
-	filePath     string
-	Openapi      string               `json:"openapi,omitempty" yaml:"openapi,omitempty"`
-	Info         info.Info            `json:"info,omitempty" yaml:"info,omitempty"`
-	Servers      []server.Server      `json:"servers,omitempty" yaml:"servers,omitempty"`
-	Paths        map[string]path.Path `json:"paths,omitempty" yaml:"paths,omitempty"`
-	Components   component.Components `json:"components,omitempty" yaml:"components,omitempty"`
-	Security     *json.RawMessage     `json:"security,omitempty" yaml:"security,omitempty"`
-	Tags         []tag.Tag            `json:"tags,omitempty" yaml:"tags,omitempty"`
-	ExternalDocs *json.RawMessage     `json:"externalDocs,omitempty" yaml:"externalDocs,omitempty"`
+	FilePath     string                `json:"-" yaml:"-"`
+	Openapi      string                `json:"openapi,omitempty" yaml:"openapi,omitempty"`
+	Info         info.Info             `json:"info,omitempty" yaml:"info,omitempty"`
+	Servers      []server.Server       `json:"servers,omitempty" yaml:"servers,omitempty"`
+	Paths        map[string]path.Path  `json:"paths,omitempty" yaml:"paths,omitempty"`
+	Components   *component.Components `json:"components,omitempty" yaml:"components,omitempty"`
+	Security     *json.RawMessage      `json:"security,omitempty" yaml:"security,omitempty"`
+	Tags         []tag.Tag             `json:"tags,omitempty" yaml:"tags,omitempty"`
+	ExternalDocs *json.RawMessage      `json:"externalDocs,omitempty" yaml:"externalDocs,omitempty"`
 }
 
 func NewDocument(filepath string) *Document {
 	file, _ := ioutil.ReadFile(filepath)
-	doc := Document{filePath: filepath}
+	doc := Document{FilePath: filepath}
 	_ = json.Unmarshal([]byte(file), &doc)
 
 	return &doc
@@ -60,12 +60,12 @@ func (doc *Document) GetOperationsByTag(tag string) (ops []operation.PathOperati
 }
 
 func (doc *Document) Save() {
-	fmt.Println("Saving file to ", doc.filePath)
+	fmt.Println("Saving file to ", doc.FilePath)
 	bytes, err := json.MarshalIndent(doc, "", "    ")
 	if err != nil {
 		panic(err)
 	}
-	err = ioutil.WriteFile(doc.filePath, bytes, os.ModePerm)
+	err = ioutil.WriteFile(doc.FilePath, bytes, os.ModePerm)
 	if err != nil {
 		panic(err)
 	}

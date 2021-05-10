@@ -1,6 +1,8 @@
 package parameter
 
-import "encoding/json"
+import (
+	"encoding/json"
+)
 
 type encoding struct {
 	ContentType   string                      `json:"contentType,omitempty" yaml:"contentType,omitempty"`
@@ -11,7 +13,7 @@ type encoding struct {
 }
 
 type MediaType struct {
-	Schema   schema             `json:"schema,omitempty" yaml:"schema,omitempty"`
-	Example  *json.RawMessage   `json:"example,omitempty" yaml:"example,omitempty"`
-	Examples map[string]Example `json:"examples,omitempty" yaml:"examples,omitempty"`
+	Schema   *json.RawMessage       `json:"schema,omitempty" yaml:"schema,omitempty"`
+	Example  map[string]interface{} `json:"example,omitempty" yaml:"example,omitempty"`
+	Examples map[string]Example     `json:"examples,omitempty" yaml:"examples,omitempty"`
 }

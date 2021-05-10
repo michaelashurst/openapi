@@ -1,0 +1,27 @@
+{
+  "path": "/api/v1/policy/{id}",
+  "method": "put",
+  "tags": [
+    "policy"
+  ],
+  "description": "Get a policy .............",
+  "summary": "Get policy",
+  "request": {
+    "persons": [
+      {
+        "firstName": "John",
+        "lastName": "Smith"
+      }
+    ]
+  },
+  "responses": {
+    "200": {
+      "persons": [
+        {
+          "firstName": "John",
+          "lastName": "Smith"
+        }
+      ]
+    }
+  }
+}

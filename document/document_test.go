@@ -54,7 +54,7 @@ func TestGetComponentSchema(t *testing.T) {
 	schemas["FAIL"] = failSchema
 
 	document := Document{
-		Components: component.Components{
+		Components: &component.Components{
 			Schemas: schemas,
 		},
 	}
