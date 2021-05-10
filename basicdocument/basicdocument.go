@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-
+	
 	"github.com/michaelashurst/openapi/document"
 	"github.com/michaelashurst/openapi/document/info"
 	"github.com/michaelashurst/openapi/document/operation"
@@ -64,6 +64,9 @@ func newBasicDocumentFiles(path string) basicDocumentFiles {
 			return nil
 		}
 		subDirs := strings.Split(p, "/")
+		if len(subDirs) < 2 {
+			subDirs = strings.Split(p, "\\")
+		}
 		if subDirs[len(subDirs)-2] == "operations" {
 			files.operationPaths = append(files.operationPaths, fileInfo{path: p, format: fileFormat})
 			return nil
