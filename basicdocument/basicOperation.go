@@ -37,8 +37,8 @@ func (basic basicOperation) operation() (op operation.Operation, method string) 
 		json.Unmarshal(bytes, &reqExample)
 		req := make(map[string]parameter.MediaType)
 		req["application/json"] = parameter.MediaType{
-			Example: reqExample,
-			Schema:  ex.GenerateSchema().RawMessage,
+			// Example: reqExample,
+			Schema: ex.GenerateSchema().RawMessage,
 		}
 
 		op.RequestBody = &operation.RequestBody{
@@ -62,8 +62,8 @@ func (basic basicOperation) operation() (op operation.Operation, method string) 
 			json.Unmarshal(bytes, &resExample)
 			res := make(map[string]parameter.MediaType)
 			res["application/json"] = parameter.MediaType{
-				Example: resExample,
-				Schema:  ex.GenerateSchema().RawMessage,
+				// Example: resExample,
+				Schema: ex.GenerateSchema().RawMessage,
 			}
 
 			op.Responses[key] = operation.Response{
