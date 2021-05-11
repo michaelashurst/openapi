@@ -1,5 +1,7 @@
 package converter
 
+import "strings"
+
 type objectConverter struct {
 }
 
@@ -8,8 +10,14 @@ func (con objectConverter) SchemaToExample(schema map[string]interface{}) interf
 
 	props := schema["properties"].(map[string]interface{})
 	for key, val := range props {
+		var formattedKey string
+		if val.(map[string]interface{})["description"] != nil {
+			formattedKey = key + " | " + val.(map[string]interface{})["description"].(string)
+		} else {
+			formattedKey = key
+		}
 		conv := NewConverter(val.(map[string]interface{})["type"].(string))
-		output[key] = conv.SchemaToExample(val.(map[string]interface{}))
+		output[formattedKey] = conv.SchemaToExample(val.(map[string]interface{}))
 	}
 
 	return output
@@ -21,8 +29,20 @@ func (con objectConverter) ExampleToSchema(example interface{}) (schema map[stri
 	schema["type"] = "object"
 	schema["properties"] = make(map[string]interface{})
 	for key, value := range obj {
+
 		converter := NewConverterFromInterface(value)
-		schema["properties"].(map[string]interface{})[key] = converter.ExampleToSchema(value)
+		sub := converter.ExampleToSchema(value)
+
+		var cleansedKey string
+		if strings.Contains(key, "|") {
+			parts := strings.Split(key, "|")
+			cleansedKey = strings.Trim(parts[0], " ")
+			sub["description"] = strings.Trim(parts[1], " ")
+		} else {
+			cleansedKey = key
+		}
+
+		schema["properties"].(map[string]interface{})[cleansedKey] = sub
 	}
 	return
 }

@@ -7,12 +7,13 @@
   "description": "Get a policy .............",
   "summary": "Get policy",
   "request": {
-    "persons": [
+    "persons | This is the first name of the person": [
       {
-        "firstName": "John",
+        "firstName   |This is the first name of the property": "John",
         "lastName": "Smith"
       }
-    ]
+    ],
+    "enum": "TestVal|"
   },
   "responses": {
     "200": {
