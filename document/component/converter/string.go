@@ -45,15 +45,16 @@ func (con stringConverter) ExampleToSchema(example interface{}) (schema map[stri
 			enums := strings.Split(str, "|")
 			schema["example"] = enums[0]
 			schema["enum"] = enums
+			if enums[len(enums)-1] == "" {
+				enums = enums[:len(enums)-1]
+			}
 			return
 		}
 		_, err := time.Parse("2006-01-02T15:04:05Z", str)
-		fmt.Println(err)
 		if err == nil {
 			schema["format"] = "date-time"
 		}
 		schema["example"] = example
 	}
-
 	return
 }
