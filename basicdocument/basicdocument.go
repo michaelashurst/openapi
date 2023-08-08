@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-	
+
 	"github.com/michaelashurst/openapi/document"
 	"github.com/michaelashurst/openapi/document/info"
 	"github.com/michaelashurst/openapi/document/operation"
@@ -116,9 +116,13 @@ func (basic basicDocument) Document(outputPath string) (doc document.Document) {
 		operation, method := op.operation()
 		setOperation(&path, operation, method)
 		path.Parameters = parameter.GetParameters(op.Path)
-		doc.Paths[op.Path] = path
+		doc.Paths[removeQuery(op.Path)] = path
 	}
 	return
+}
+
+func removeQuery(path string) string {
+	return strings.Split(path, "?")[0]
 }
 
 func setOperation(path *path.Path, operation operation.Operation, method string) {
