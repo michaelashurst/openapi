@@ -2,7 +2,6 @@ package basicdocument
 
 import (
 	"encoding/json"
-	"errors"
 	"os"
 	"path/filepath"
 	"strings"
@@ -66,13 +65,15 @@ func newBasicDocumentFiles(path string) basicDocumentFiles {
 		subDirs := strings.Split(p, "/")
 		if len(subDirs) < 2 {
 			subDirs = strings.Split(p, "\\")
+			if len(subDirs) < 2 {
+				return nil
+			}
 		}
 		if subDirs[len(subDirs)-2] == "operations" {
 			files.operationPaths = append(files.operationPaths, fileInfo{path: p, format: fileFormat})
-			return nil
 		}
 
-		return errors.New("Unexpected file found " + info.Name() + " with path " + p)
+		return nil
 	})
 	if err != nil {
 		panic(err)
