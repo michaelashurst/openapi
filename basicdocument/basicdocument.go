@@ -2,6 +2,7 @@ package basicdocument
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -44,6 +45,7 @@ type basicDocumentFiles struct {
 func newBasicDocumentFiles(path string) basicDocumentFiles {
 	files := basicDocumentFiles{}
 	err := filepath.Walk(path, func(p string, info os.FileInfo, err error) error {
+		fmt.Println("Found file ", p)
 		if info.IsDir() {
 			return nil
 		}
@@ -69,7 +71,8 @@ func newBasicDocumentFiles(path string) basicDocumentFiles {
 				return nil
 			}
 		}
-		if subDirs[len(subDirs)-2] == "operations" {
+
+		if contains(subDirs, "operations") {
 			files.operationPaths = append(files.operationPaths, fileInfo{path: p, format: fileFormat})
 		}
 
@@ -80,6 +83,16 @@ func newBasicDocumentFiles(path string) basicDocumentFiles {
 	}
 
 	return files
+}
+
+func contains(s []string, str string) bool {
+	for _, v := range s {
+		if v == str {
+			return true
+		}
+	}
+
+	return false
 }
 
 func NewBasicDocument(path string) basicDocument {
